@@ -1,1 +1,79 @@
- 
+* {
+    padding:0;
+    margin:0;
+    color:black;
+ }
+
+ .clearfix {
+   overflow:auto;
+   zoom: 1;
+ }
+
+a {
+    text-decoration:none;
+    font-family:arial;
+    color: black;
+}
+
+h1 {
+    font-family:arial;
+    font-size:40px;
+}
+
+h2 {
+    font-family:serif;
+    font-size:20px;
+}
+
+div.main {
+    margin:0 auto;
+    width:700px;
+    height:auto;
+}
+
+div.header {
+    box-sizing:border-box;
+    padding:10px;
+    width:inherit;
+    height:auto;
+    border-bottom-style:solid;
+    border-bottom-width:6px;
+}
+
+div.addBtn a {
+    font-size:40px;
+}
+
+div.employee {
+    box-sizing:border-box;
+    padding:10px;
+    width:inherit;
+    height:auto;
+    border-bottom-style:solid;
+    border-bottom-width:2px;
+}
+
+div.remove a {
+    font-size: 20px;
+}
+
+div.addForm {
+    box-sizing:border-box;
+    padding:10px;
+    width:inherit;
+    height:auto;
+    border: solid 10px;
+}
+
+div.addForm input {
+    margin-left:20px;
+    margin-bottom:5px;
+}
+
+.right {
+    float:right;
+}
+
+.left {
+    float:left;
+}

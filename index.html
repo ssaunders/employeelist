@@ -1,0 +1,55 @@
+<html ng-app="EmployeeApp">
+    <head>
+        <title>Employee List</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="employees.js"></script>
+        <link rel="stylesheet" type="text/css" href="employees.css">
+    </head>
+    <body>
+        <div class="main" ng-controller="EmployeeCtrl">
+            <div class="header clearfix">
+                <div class="left">
+                    <h1>Employees</h1>
+                </div>
+                <div class="addBtn right">
+                    <a href="" ng-click="addEmployee()">(+)</a>
+                </div>
+            </div>
+            <div class="addForm">
+                <form ng-submit="addEmployee">
+                    <ul>
+                        <li>
+                            <label for="name">Name:</label>
+                            <input type="text" name="name" ng-model="name" required>
+                        </li>
+                        <li>
+                            <label for="title">Title:</label>
+                            <input type="text" name="title" ng-model="title" required>
+                        </li>
+                        <li>
+                            <label for="age">Age:</label>
+                            <input type="text" name="age" ng-model="age" required>
+                        </li>
+                        <li>
+                            <label for="hireDate">Hire Date:</label>
+                            <input type="date" name="hireDate" ng-model="hireDate" required>
+                        </li>
+                        <li>
+                            <label for="photoid">Photo ID:</label>
+                            <input type="url" name="photoid" ng-model="photoid" required>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="employee clearfix" ng-repeat="employee in employees">
+                <div class="left">
+                    <h2>{{employee.name}}</h2>
+                </div>
+                <div class="remove right">
+                    <a href="" ng-click="showDetails()">(+)</a>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
