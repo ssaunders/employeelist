@@ -11,11 +11,11 @@
                 <div class="left">
                     <h1>Employees</h1>
                 </div>
-                <div class="addBtn right">
+                <div class="add-btn right">
                     <a href="" ng-click="addEmployee()">(+)</a>
                 </div>
             </div>
-            <div class="addForm">
+            <div class="add-form">
                 <form ng-submit="addEmployee">
                     <ul>
                         <li>
@@ -41,15 +41,25 @@
                     </ul>
                 </form>
             </div>
-            <div class="employee clearfix" ng-repeat="employee in employees">
-                <div class="left">
-                    <h2>{{employee.name}}</h2>
+            <div class="employee" ng-repeat="employee in employees">
+                <div class="employee-header clearfix">
+                    <div class="left">
+                        <h2>{{employee.name}}</h2>
+                    </div>
+                    <div class="remove right">
+                        <a href="" ng-show="!employee.visibleDetails" ng-click="employee.visibleDetails=true">(+)</a>
+                        <a href="" ng-show="employee.visibleDetails" ng-click="employee.visibleDetails=false">(-)</a>
+                    </div>
                 </div>
-                <div class="remove right">
-                    <a href="" ng-click="showDetails()">(+)</a>
+                <div class="employee-info" ng-show="employee.visibleDetails">
+                    <ul>
+                        <li>Title: {{employee.title}}</li>
+                        <li>Age: {{employee.age}}</li>
+                        <li>Hire Date: {{employee.hireDate}}</li>
+                        <li>Photo: {{employee.photoid}}</li>
+                    </ul>
                 </div>
             </div>
-
         </div>
     </body>
 </html>

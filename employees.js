@@ -8,7 +8,8 @@ function EmployeeCtrl($scope) {
             title: $scope.title,
             age: $scope.age,
             hireDate: $scope.hireDate,
-            photoid: $scope.photoid
+            photoid: $scope.photoid,
+            visibleDetails: false
         });
         // TODO take care of API stuff and ID
     };
@@ -17,9 +18,6 @@ function EmployeeCtrl($scope) {
         // TODO remove employee from scope.employees
     };
 
-    $scope.showDetails = function () {
-        // TODO display details for particular employee
-    };
 }
 
 var app = angular.module('EmployeeApp', []);

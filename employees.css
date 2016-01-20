@@ -25,6 +25,10 @@ h2 {
     font-size:20px;
 }
 
+li {
+    list-style-type:none;
+}
+
 div.main {
     margin:0 auto;
     width:700px;
@@ -40,11 +44,11 @@ div.header {
     border-bottom-width:6px;
 }
 
-div.addBtn a {
+div.add-btn a {
     font-size:40px;
 }
 
-div.employee {
+div.employee-header {
     box-sizing:border-box;
     padding:10px;
     width:inherit;
@@ -57,7 +61,16 @@ div.remove a {
     font-size: 20px;
 }
 
-div.addForm {
+div.employee-info {
+    box-sizing:border-box;
+    padding:10px;
+    width:inherit;
+    height:auto;
+    border-bottom-style:solid;
+    border-bottom-width:2px;
+}
+
+div.add-form {
     box-sizing:border-box;
     padding:10px;
     width:inherit;
@@ -65,7 +78,7 @@ div.addForm {
     border: solid 10px;
 }
 
-div.addForm input {
+div.add-form input {
     margin-left:20px;
     margin-bottom:5px;
 }
