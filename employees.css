@@ -57,17 +57,30 @@ div.employee-header {
     border-bottom-width:2px;
 }
 
-div.remove a {
+div.show_details a {
     font-size: 20px;
 }
 
 div.employee-info {
     box-sizing:border-box;
+    position:relative;
     padding:10px;
     width:inherit;
     height:auto;
+    font-size:17px;
     border-bottom-style:solid;
     border-bottom-width:2px;
+}
+
+div.remove {
+    position:absolute;
+    right:10px;
+    top:10px;
+}
+
+div.remove a {
+    font-family:serif;
+    font-size: 17px;
 }
 
 div.add-form {
@@ -75,7 +88,8 @@ div.add-form {
     padding:10px;
     width:inherit;
     height:auto;
-    border: solid 10px;
+    border: solid 6px;
+    border-top-style: none;
 }
 
 div.add-form input {

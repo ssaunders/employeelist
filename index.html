@@ -1,4 +1,4 @@
-<html ng-app="EmployeeApp">
+<html ng-app="EmployeeApp" ng-init="formVisible=false">
     <head>
         <title>Employee List</title>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -12,11 +12,12 @@
                     <h1>Employees</h1>
                 </div>
                 <div class="add-btn right">
-                    <a href="" ng-click="addEmployee()">(+)</a>
+                    <a href="" ng-show="!formVisible" ng-click="formVisible=true">(+)</a>
+                    <a href="" ng-show="formVisible" ng-click="formVisible=false">(-)</a>
                 </div>
             </div>
-            <div class="add-form">
-                <form ng-submit="addEmployee">
+            <div class="add-form" ng-show="formVisible">
+                <form ng-submit="addEmployee()">
                     <ul>
                         <li>
                             <label for="name">Name:</label>
@@ -36,7 +37,10 @@
                         </li>
                         <li>
                             <label for="photoid">Photo ID:</label>
-                            <input type="url" name="photoid" ng-model="photoid" required>
+                            <input type="url" name="photoid" ng-model="photoid">
+                        </li>
+                        <li>
+                            <input type="submit" value="Add">
                         </li>
                     </ul>
                 </form>
@@ -46,7 +50,7 @@
                     <div class="left">
                         <h2>{{employee.name}}</h2>
                     </div>
-                    <div class="remove right">
+                    <div class="show_details right">
                         <a href="" ng-show="!employee.visibleDetails" ng-click="employee.visibleDetails=true">(+)</a>
                         <a href="" ng-show="employee.visibleDetails" ng-click="employee.visibleDetails=false">(-)</a>
                     </div>
@@ -56,8 +60,13 @@
                         <li>Title: {{employee.title}}</li>
                         <li>Age: {{employee.age}}</li>
                         <li>Hire Date: {{employee.hireDate}}</li>
-                        <li>Photo: {{employee.photoid}}</li>
+                        <li ng-show="employee.photoid">Photo: {{employee.photoid}}</li>
                     </ul>
+                    <div class="remove">
+                        <a href="" ng-click="removeEmployee(employee)">
+                            (remove employee)
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
