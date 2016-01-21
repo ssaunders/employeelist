@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="add-form" ng-show="formVisible">
-                <form ng-submit="addEmployee()">
+                <form ng-submit="submit()">
                     <ul>
                         <li>
                             <label for="name">Name:</label>
@@ -40,7 +40,7 @@
                             <input type="url" name="photoid" ng-model="photoid">
                         </li>
                         <li>
-                            <input type="submit" value="Add">
+                            <input type="submit" value="{{btnText}}">
                         </li>
                     </ul>
                 </form>
@@ -65,6 +65,9 @@
                     <div class="remove">
                         <a href="" ng-click="removeEmployee(employee)">
                             (remove employee)
+                        </a>
+                        <a href="" ng-click="updateEmployeeForm(employee)">
+                            (update info)
                         </a>
                     </div>
                 </div>

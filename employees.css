@@ -73,6 +73,7 @@ div.employee-info {
 }
 
 div.remove {
+    text-align: right;
     position:absolute;
     right:10px;
     top:10px;
@@ -81,6 +82,7 @@ div.remove {
 div.remove a {
     font-family:serif;
     font-size: 17px;
+    display:block;
 }
 
 div.add-form {
