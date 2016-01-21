@@ -17,61 +17,9 @@
                 </div>
             </div>
             <div class="add-form" ng-show="formVisible">
-                <form ng-submit="submit()">
-                    <ul>
-                        <li>
-                            <label for="name">Name:</label>
-                            <input type="text" name="name" ng-model="name" required>
-                        </li>
-                        <li>
-                            <label for="title">Title:</label>
-                            <input type="text" name="title" ng-model="title" required>
-                        </li>
-                        <li>
-                            <label for="age">Age:</label>
-                            <input type="text" name="age" ng-model="age" required>
-                        </li>
-                        <li>
-                            <label for="hireDate">Hire Date:</label>
-                            <input type="date" name="hireDate" ng-model="hireDate" required>
-                        </li>
-                        <li>
-                            <label for="photoid">Photo ID:</label>
-                            <input type="url" name="photoid" ng-model="photoid">
-                        </li>
-                        <li>
-                            <input type="submit" value="{{btnText}}">
-                        </li>
-                    </ul>
-                </form>
+                <div ng-include="'form.html'"></div>
             </div>
-            <div class="employee" ng-repeat="employee in employees">
-                <div class="employee-header clearfix">
-                    <div class="left">
-                        <h2>{{employee.name}}</h2>
-                    </div>
-                    <div class="show_details right">
-                        <a href="" ng-show="!employee.visibleDetails" ng-click="employee.visibleDetails=true">(+)</a>
-                        <a href="" ng-show="employee.visibleDetails" ng-click="employee.visibleDetails=false">(-)</a>
-                    </div>
-                </div>
-                <div class="employee-info" ng-show="employee.visibleDetails">
-                    <ul>
-                        <li>Title: {{employee.title}}</li>
-                        <li>Age: {{employee.age}}</li>
-                        <li>Hire Date: {{employee.hireDate}}</li>
-                        <li ng-show="employee.photoid">Photo: {{employee.photoid}}</li>
-                    </ul>
-                    <div class="remove">
-                        <a href="" ng-click="removeEmployee(employee)">
-                            (remove employee)
-                        </a>
-                        <a href="" ng-click="updateEmployeeForm(employee)">
-                            (update info)
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div ng-include="'list.html'"></div>
         </div>
     </body>
 </html>

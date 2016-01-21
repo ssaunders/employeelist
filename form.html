@@ -1,0 +1,27 @@
+<form ng-submit="submit()">
+    <ul>
+        <li>
+            <label for="name">Name:</label>
+            <input type="text" name="name" ng-model="$parent.name" required>
+        </li>
+        <li>
+            <label for="title">Title:</label>
+            <input type="text" name="title" ng-model="$parent.title" required>
+        </li>
+        <li>
+            <label for="age">Age:</label>
+            <input type="text" name="age" ng-model="$parent.age" required>
+        </li>
+        <li>
+            <label for="hireDate">Hire Date:</label>
+            <input type="date" name="hireDate" ng-model="$parent.hireDate" required>
+        </li>
+        <li>
+            <label for="photoid">Photo ID:</label>
+            <input type="url" name="photoid" ng-model="$parent.photoid">
+        </li>
+        <li>
+            <input type="submit" value="{{btnText}}">
+        </li>
+    </ul>
+</form>
