@@ -50,7 +50,7 @@ function EmployeeCtrl($scope, $http) {
         $scope.name = employee.name;
         $scope.title = employee.title;
         $scope.age = employee.age;
-        $scope.hireDate = employee.hireDate;
+        $scope.hireDate = new Date(employee.hireDate);
         $scope.photoid = employee.photoid;
         updatedEmployee = employee;
         $scope.btnText = 'Update';
