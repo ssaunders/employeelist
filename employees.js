@@ -1,7 +1,10 @@
 'use strict';
 
-function EmployeeCtrl($scope) {
+function EmployeeCtrl($scope, $http) {
     $scope.employees = [];
+    $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
+        $scope.employees = response.data;
+    });
     $scope.btnText = 'Add';
     var updatedEmployee;
 
@@ -10,18 +13,24 @@ function EmployeeCtrl($scope) {
         $scope.title = null;
         $scope.age = null;
         $scope.hireDate = null;
-        $scope.photoid = null;
+        $scope.photoId = null;
     }
 
     $scope.addEmployee = function () {
 
-        $scope.employees.push({
+        var newEmployee = {
             name: $scope.name,
-            title: $scope.title,
+            photoid: $scope.photoId,
             age: $scope.age,
             hireDate: $scope.hireDate,
-            photoid: $scope.photoid,
-            visibleDetails: false
+            title: $scope.title
+        };
+        $http.post('https://devapplications.mtc.byu.edu/training/v1/api/persons/', newEmployee).then(function (response) {
+            alert('Employee added!');
+            $scope.employees.push(response.data);
+        },
+        function (response) {
+            alert('Employee could not be added. ' + response.status + ' ' + response.statusText);
         });
         clearFormData();
         // TODO take care of API stuff and ID
@@ -29,7 +38,12 @@ function EmployeeCtrl($scope) {
     };
 
     $scope.removeEmployee = function (employee) {
-        $scope.employees.splice($scope.employees.indexOf(employee), 1);
+        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
+            $scope.employees.splice($scope.employees.indexOf(employee), 1);
+        },
+        function (response) {
+            alert('Employee could not be deleted. ' + response.status + ' ' + response.statusText);
+        });
     };
 
     $scope.updateEmployeeForm = function (employee) {
@@ -40,21 +54,34 @@ function EmployeeCtrl($scope) {
         $scope.photoid = employee.photoid;
         updatedEmployee = employee;
         $scope.btnText = 'Update';
-        $scope.submit = $scope.updateEmployee
-        $rootScope.formVisible = true; // display form if hidden
-    }
+        $scope.submit = $scope.updateEmployee;
+        $scope.$parent.formVisible = true; // display form if hidden
+    };
 
     $scope.updateEmployee = function () {
-        updatedEmployee.name = $scope.name;
-        updatedEmployee.title = $scope.title;
-        updatedEmployee.age = $scope.age;
-        updatedEmployee.hireDate = $scope.hireDate;
-        updatedEmployee.photoid = $scope.photoid;
+        var updatedInfo = {
+            name: $scope.name,
+            photoId: $scope.photoId,
+            age: $scope.age,
+            hireDate: $scope.hireDate,
+            title: $scope.title
+        };
 
-        clearFormData();
-        $scope.btnText = 'Add';
-        $scope.submit = $scope.addEmployee;
-    }
+        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + updatedEmployee.id, updatedInfo).then(function (response) {
+            alert('Employee updated!');
+            updatedEmployee.name = $scope.name;
+            updatedEmployee.photoId = $scope.photoId;
+            updatedEmployee.age = $scope.age;
+            updatedEmployee.hireDate = $scope.hireDate;
+            updatedEmployee.title = $scope.title;
+            clearFormData();
+            $scope.btnText = 'Add';
+            $scope.submit = $scope.addEmployee;
+        },
+        function (response) {
+            alert('Update failed ' +  + response.status + ' ' + response.statusText);
+        });
+    };
 
     // assign submission addEmployee function by default
     $scope.submit = $scope.addEmployee;
