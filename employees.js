@@ -1,9 +1,18 @@
 'use strict';
 
-function EmployeeCtrl($scope, $http, $stateParams) {
+function EmployeeCtrl($scope, $http, $stateParams, $rootScope) {
     $scope.employees = [];
     $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
         $scope.employees = response.data;
+        if ($stateParams.employeeId) {
+            $scope.updateEmployeeForm();
+        }
+        $rootScope.$on('$stateChangeSuccess',
+        function () {
+            if ($stateParams.employeeId) {
+                $scope.updateEmployeeForm();
+            }
+        });
     });
     $scope.btnText = 'Add';
     var updatedEmployee;
@@ -18,7 +27,7 @@ function EmployeeCtrl($scope, $http, $stateParams) {
 
     function getEmployeeByID(id) {
         for (var e of $scope.employees) {
-            if (e.id == id) {
+            if (e.id === id) {
                 return e;
             }
         }
@@ -29,7 +38,7 @@ function EmployeeCtrl($scope, $http, $stateParams) {
 
         var newEmployee = {
             name: $scope.name,
-            photoid: $scope.photoId,
+            photoId: $scope.photoId,
             age: $scope.age,
             hireDate: $scope.hireDate,
             title: $scope.title
@@ -61,8 +70,7 @@ function EmployeeCtrl($scope, $http, $stateParams) {
         $scope.title = employee.title;
         $scope.age = employee.age;
         $scope.hireDate = new Date(employee.hireDate);
-        $scope.photoid = employee.photoid;
-        updatedEmployee = employee;
+        $scope.photoId = employee.photoId;
         $scope.btnText = 'Update';
         $scope.submit = $scope.updateEmployee;
         $scope.$parent.formVisible = true; // display form if hidden
@@ -77,14 +85,14 @@ function EmployeeCtrl($scope, $http, $stateParams) {
             hireDate: $scope.hireDate,
             title: $scope.title
         };
-
-        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + updatedEmployee.id, updatedInfo).then(function (response) {
+        console.log(updatedInfo);
+        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id, updatedInfo).then(function (response) {
             alert('Employee updated!');
-            updatedEmployee.name = $scope.name;
-            updatedEmployee.photoId = $scope.photoId;
-            updatedEmployee.age = $scope.age;
-            updatedEmployee.hireDate = $scope.hireDate;
-            updatedEmployee.title = $scope.title;
+            employee.name = $scope.name;
+            employee.photoId = $scope.photoId;
+            employee.age = $scope.age;
+            employee.hireDate = $scope.hireDate;
+            employee.title = $scope.title;
             clearFormData();
             $scope.btnText = 'Add';
             $scope.submit = $scope.addEmployee;
