@@ -12,14 +12,14 @@
         <ul>
             <li>Title: {{employee.title}}</li>
             <li>Age: {{employee.age}}</li>
-            <li>Hire Date: {{employee.hireDate}}</li>
+            <li>Hire Date: {{employee.hireDate | date:mediumDate}}</li>
             <li ng-show="employee.photoid">Photo: {{employee.photoid}}</li>
         </ul>
         <div class="remove">
             <a href="" ng-click="removeEmployee(employee)">
                 (remove employee)
             </a>
-            <a ui-sref="update" ng-click="updateEmployeeForm(employee)">
+            <a ui-sref="update({employeeId: employee.id})" ng-click="updateEmployeeForm()">
                 (update info)
             </a>
         </div>

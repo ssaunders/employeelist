@@ -1,6 +1,6 @@
 'use strict';
 
-function EmployeeCtrl($scope, $http) {
+function EmployeeCtrl($scope, $http, $stateParams) {
     $scope.employees = [];
     $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
         $scope.employees = response.data;
@@ -14,6 +14,15 @@ function EmployeeCtrl($scope, $http) {
         $scope.age = null;
         $scope.hireDate = null;
         $scope.photoId = null;
+    }
+
+    function getEmployeeByID(id) {
+        for (var e of $scope.employees) {
+            if (e.id == id) {
+                return e;
+            }
+        }
+        return null;
     }
 
     $scope.addEmployee = function () {
@@ -46,7 +55,8 @@ function EmployeeCtrl($scope, $http) {
         });
     };
 
-    $scope.updateEmployeeForm = function (employee) {
+    $scope.updateEmployeeForm = function () {
+        var employee = getEmployeeByID($stateParams.employeeId);
         $scope.name = employee.name;
         $scope.title = employee.title;
         $scope.age = employee.age;
@@ -59,6 +69,7 @@ function EmployeeCtrl($scope, $http) {
     };
 
     $scope.updateEmployee = function () {
+        var employee = getEmployeeByID($stateParams.employeeId);
         var updatedInfo = {
             name: $scope.name,
             photoId: $scope.photoId,
@@ -96,10 +107,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('new', {
             url: '/new',
-            templateUrl: 'partials/edit.html'
+            templateUrl: 'partials/edit.html',
         })
         .state('update', {
-            url: '/update',
+            url: '/update/:employeeId',
             templateUrl: 'partials/edit.html'
         })
         .state('home', {
