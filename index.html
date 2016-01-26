@@ -1,7 +1,8 @@
-<html ng-app="EmployeeApp" ng-init="formVisible=false">
+<html ng-app="EmployeeApp" ng-init="edit=false">
     <head>
         <title>Employee List</title>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.min.js"></script>
         <script src="employees.js"></script>
         <link rel="stylesheet" type="text/css" href="employees.css">
     </head>
@@ -12,20 +13,12 @@
                     <h1>Employees</h1>
                 </div>
                 <div class="add-btn right">
-                    <a href="" ng-show="!formVisible" ng-click="formVisible=true">(+)</a>
-                    <a href="" ng-show="formVisible" ng-click="formVisible=false">(-)</a>
+                    <a ui-sref="new" ng-show="!edit" ng-click="edit=true">(+)</a>
+                    <a ui-sref="home" ng-show="edit" ng-click="edit=false">(-)</a>
                 </div>
             </div>
-            <div class="add-form clearfix" ng-show="formVisible">
-                <div ng-include="'form.html'" class="left"></div>
-                <div class="photo-display right">
-                    <img ng-src="{{photoid}}" ng-show="photoid">
-                    <div class="photo-preview" ng-show="!photoid">
-                        <h2>Employee Photo</h2>
-                    </div>
-                </div>
-            </div>
-            <div ng-include="'list.html'"></div>
+            <div ui-view></div>
+            <div ng-include="'partials/list.html'"></div>
         </div>
     </body>
 </html>

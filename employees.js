@@ -79,7 +79,7 @@ function EmployeeCtrl($scope, $http) {
             $scope.submit = $scope.addEmployee;
         },
         function (response) {
-            alert('Update failed ' +  + response.status + ' ' + response.statusText);
+            alert('Update failed ' + ' ' + response.status + ' ' + response.statusText);
         });
     };
 
@@ -88,6 +88,24 @@ function EmployeeCtrl($scope, $http) {
 
 }
 
-var app = angular.module('EmployeeApp', []);
+var app = angular.module('EmployeeApp', ['ui.router']);
+app.config(function ($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+        .state('new', {
+            url: '/new',
+            templateUrl: 'partials/edit.html'
+        })
+        .state('update', {
+            url: '/update',
+            templateUrl: 'partials/edit.html'
+        })
+        .state('home', {
+            url: '/',
+            templateUrl: null
+        });
+});
 
 app.controller('EmployeeCtrl', EmployeeCtrl);

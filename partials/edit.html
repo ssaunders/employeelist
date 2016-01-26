@@ -1,0 +1,9 @@
+<div class="add-form clearfix" ui-view>
+    <div ng-include="'form.html'" class="left"></div>
+    <div class="photo-display right">
+        <img ng-src="{{photoid}}" ng-show="photoid">
+        <div class="photo-preview" ng-show="!photoid">
+            <h2>Employee Photo</h2>
+        </div>
+    </div>
+</div>
