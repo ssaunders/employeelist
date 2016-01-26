@@ -16,8 +16,14 @@
                     <a href="" ng-show="formVisible" ng-click="formVisible=false">(-)</a>
                 </div>
             </div>
-            <div class="add-form" ng-show="formVisible">
-                <div ng-include="'form.html'"></div>
+            <div class="add-form clearfix" ng-show="formVisible">
+                <div ng-include="'form.html'" class="left"></div>
+                <div class="photo-display right">
+                    <img ng-src="{{photoid}}" ng-show="photoid">
+                    <div class="photo-preview" ng-show="!photoid">
+                        <h2>Employee Photo</h2>
+                    </div>
+                </div>
             </div>
             <div ng-include="'list.html'"></div>
         </div>
