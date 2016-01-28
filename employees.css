@@ -9,6 +9,10 @@
    zoom: 1;
  }
 
+[ng-cloak] {
+    display:none;
+}
+
 a {
     text-decoration:none;
     font-family:arial;

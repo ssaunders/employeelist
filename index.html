@@ -1,13 +1,10 @@
 <html ng-app="EmployeeApp" ng-init="edit=false">
     <head>
         <title>Employee List</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.min.js"></script>
-        <script src="employees.js"></script>
         <link rel="stylesheet" type="text/css" href="employees.css">
     </head>
-    <body>
-        <div class="main" ng-controller="EmployeeCtrl">
+    <body ng-cloak>
+        <div class="main">
             <div class="header clearfix">
                 <div class="left">
                     <h1>Employees</h1>
@@ -20,5 +17,8 @@
             <div ui-view></div>
             <div ng-include="'partials/list.html'"></div>
         </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.min.js"></script>
+        <script src="employees.js"></script>
     </body>
 </html>
