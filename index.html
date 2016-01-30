@@ -1,4 +1,4 @@
-<html ng-app="EmployeeApp" ng-init="edit=false">
+<html ng-app="EmployeeApp">
     <head>
         <title>Employee List</title>
         <link rel="stylesheet" type="text/css" href="employees.css">
@@ -10,12 +10,12 @@
                     <h1>Employees</h1>
                 </div>
                 <div class="add-btn right">
-                    <a ui-sref="new" ng-show="!edit" ng-click="edit=true">(+)</a>
-                    <a ui-sref="home" ng-show="edit" ng-click="edit=false">(-)</a>
+                    <a ui-sref="new" ng-show="!edit">(+)</a>
+                    <a ui-sref="home" ng-show="edit">(-)</a>
                 </div>
             </div>
             <div ui-view></div>
-            <div ng-include="'partials/list.html'"></div>
+            <div ng-controller="ListCtrl" ng-include="'partials/list.html'"></div>
         </div>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.min.js"></script>

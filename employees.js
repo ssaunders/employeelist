@@ -1,59 +1,71 @@
 'use strict';
 
-function EmployeeCtrl($scope, $http, $stateParams, $rootScope) {
-    $scope.employees = [];
-    $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
-        $scope.employees = response.data;
-        if ($stateParams.employeeId) {
-            $scope.updateEmployeeForm();
-        }
-        $rootScope.$on('$stateChangeSuccess',
-        function () {
-            if ($stateParams.employeeId) {
-                $scope.updateEmployeeForm();
-            }
-        });
-    });
+function MainCtrl ($scope, $http, $stateParams, $rootScope) {
+    $rootScope.edit = false;
     $scope.btnText = 'Add';
-    var updatedEmployee;
+}
 
-    function clearFormData() {
-        $scope.name = null;
-        $scope.title = null;
-        $scope.age = null;
-        $scope.hireDate = null;
-        $scope.photoId = null;
-    }
+function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
+    $rootScope.edit = true;
+    $scope.btnText = 'Add';
 
-    function getEmployeeByID(id) {
-        for (var e of $scope.employees) {
-            if (e.id === id) {
-                return e;
-            }
-        }
-        return null;
-    }
-
-    $scope.addEmployee = function () {
-
+    $scope.addEmployee = function (e) {
         var newEmployee = {
-            name: $scope.name,
-            photoId: $scope.photoId,
-            age: $scope.age,
-            hireDate: $scope.hireDate,
-            title: $scope.title
+            name: $scope.form.name,
+            photoId: $scope.form.photoId,
+            age: $scope.form.age,
+            hireDate: $scope.form.hireDate,
+            title: $scope.form.title
         };
-        $http.post('https://devapplications.mtc.byu.edu/training/v1/api/persons/', newEmployee).then(function (response) {
-            alert('Employee added!');
-            $scope.employees.push(response.data);
+        EmployeeList.addNew(newEmployee);
+        $location.path('/');
+    };
+    $scope.submit = $scope.addEmployee;
+}
+
+function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $location, $interval) {
+    $rootScope.edit = true;
+    $scope.btnText = 'Update';
+    $interval(function () {
+      var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
+      $scope.form = {};
+      $scope.form.name = employee.name;
+      $scope.form.title = employee.title;
+      $scope.form.age = employee.age;
+      $scope.form.hireDate = new Date(employee.hireDate);
+      $scope.form.photoId = employee.photoId;
+    }, 50, 8);
+
+    $scope.updateEmployee = function () {
+        var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
+        var updatedInfo = {
+            name: $scope.form.name,
+            photoId: $scope.form.photoId,
+            age: $scope.form.age,
+            hireDate: $scope.form.hireDate,
+            title: $scope.form.title
+        };
+        console.log(updatedInfo);
+        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id, updatedInfo).then(function (response) {
+            alert('Employee updated!');
+            employee.name = $scope.form.name;
+            employee.photoId = $scope.form.photoId;
+            employee.age = $scope.form.age;
+            employee.hireDate = $scope.form.hireDate;
+            employee.title = $scope.form.title;
+            $scope.btnText = 'Add';
+            $location.path('/');
         },
         function (response) {
-            alert('Employee could not be added. ' + response.status + ' ' + response.statusText);
+            alert('Update failed ' + ' ' + response.status + ' ' + response.statusText);
         });
-        clearFormData();
-        // TODO take care of API stuff and ID
-
     };
+
+    $scope.submit = $scope.updateEmployee;
+}
+
+function ListCtrl (EmployeeList, $interval, $scope, $http) {
+    $interval(function () {$scope.employees = EmployeeList.getEmployees()}, 250, 6); // load initial employees
 
     $scope.removeEmployee = function (employee) {
         $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
@@ -63,48 +75,38 @@ function EmployeeCtrl($scope, $http, $stateParams, $rootScope) {
             alert('Employee could not be deleted. ' + response.status + ' ' + response.statusText);
         });
     };
+}
 
-    $scope.updateEmployeeForm = function () {
-        var employee = getEmployeeByID($stateParams.employeeId);
-        $scope.name = employee.name;
-        $scope.title = employee.title;
-        $scope.age = employee.age;
-        $scope.hireDate = new Date(employee.hireDate);
-        $scope.photoId = employee.photoId;
-        $scope.btnText = 'Update';
-        $scope.submit = $scope.updateEmployee;
-        $scope.$parent.formVisible = true; // display form if hidden
-    };
+function EmployeeListService ($http) {
+    var self = this;
+    $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
+        self.employees = response.data;
+    });
 
-    $scope.updateEmployee = function () {
-        var employee = getEmployeeByID($stateParams.employeeId);
-        var updatedInfo = {
-            name: $scope.name,
-            photoId: $scope.photoId,
-            age: $scope.age,
-            hireDate: $scope.hireDate,
-            title: $scope.title
-        };
-        console.log(updatedInfo);
-        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id, updatedInfo).then(function (response) {
-            alert('Employee updated!');
-            employee.name = $scope.name;
-            employee.photoId = $scope.photoId;
-            employee.age = $scope.age;
-            employee.hireDate = $scope.hireDate;
-            employee.title = $scope.title;
-            clearFormData();
-            $scope.btnText = 'Add';
-            $scope.submit = $scope.addEmployee;
-        },
-        function (response) {
-            alert('Update failed ' + ' ' + response.status + ' ' + response.statusText);
+    function getEmployeeByID (id) {
+        for (var e of self.employees) {
+            if (e.id === id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    function getEmployees () {
+        return self.employees;
+    }
+
+    function addNew(e) {
+        $http.post('https://devapplications.mtc.byu.edu/training/v1/api/persons/', e).then(function (response) {
+            self.employees.push(response.data);
         });
+    }
+
+    return {
+        getEmployeeByID:getEmployeeByID,
+        getEmployees:getEmployees,
+        addNew:addNew
     };
-
-    // assign submission addEmployee function by default
-    $scope.submit = $scope.addEmployee;
-
 }
 
 var app = angular.module('EmployeeApp', ['ui.router']);
@@ -116,15 +118,22 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('new', {
             url: '/new',
             templateUrl: 'partials/edit.html',
+            controller: NewCtrl
         })
         .state('update', {
             url: '/update/:employeeId',
-            templateUrl: 'partials/edit.html'
+            templateUrl: 'partials/edit.html',
+            controller: UpdateCtrl
         })
         .state('home', {
             url: '/',
-            templateUrl: null
+            templateUrl: null,
+            controller: MainCtrl
         });
 });
 
-app.controller('EmployeeCtrl', EmployeeCtrl);
+app.service('EmployeeList', ['$http', EmployeeListService])
+.controller('ListCtrl', ['EmployeeList', '$interval', '$scope', '$http', ListCtrl])
+.controller('MainCtrl', MainCtrl)
+.controller('NewCtrl', ['EmployeeList', '$scope', '$rootScope', '$location', NewCtrl])
+.controller('UpdateCtrl', ['EmployeeList', '$scope', '$rootScope', '$http', '$stateParams', '$location', '$interval', UpdateCtrl]);

@@ -2,23 +2,23 @@
     <ul>
         <li>
             <label for="name">Name:</label>
-            <input type="text" name="name" ng-model="$parent.name" required>
+            <input type="text" name="name" ng-model="$parent.form.name" ngRequired>
         </li>
         <li>
             <label for="title">Title:</label>
-            <input type="text" name="title" ng-model="$parent.title" required>
+            <input type="text" name="title" ng-model="$parent.form.title" ngRequired>
         </li>
         <li>
             <label for="age">Age:</label>
-            <input type="text" name="age" ng-model="$parent.age" required>
+            <input type="text" name="age" ng-model="$parent.form.age" ngRequired>
         </li>
         <li>
             <label for="hireDate">Hire Date:</label>
-            <input type="date" name="hireDate" ng-model="$parent.hireDate" required>
+            <input type="date" name="hireDate" ng-model="$parent.form.hireDate" ngRequired>
         </li>
         <li>
             <label for="photoId">Photo ID:</label>
-            <input type="url" name="photoId" ng-model="$parent.photoId">
+            <input type="url" name="photoId" ng-model="$parent.form.photoId">
         </li>
         <li>
             <input type="submit" value="{{btnText}}">
