@@ -12,6 +12,11 @@ h2 {
     margin-bottom:10px;
 }
 
+#listheader {
+    margin-left:10px;
+    margin-bottom:2px;
+}
+
 md-sidenav h2 {
     margin-left:10px;
 }
@@ -19,18 +24,33 @@ md-sidenav h2 {
 md-sidenav {
   width: 420px;
 }
+
 md-sidenav md-divider {
   margin-bottom: 8px;
 }
+
 md-sidenav md-list-item {
   height: 60px;
 }
-.pic {
-    margin-left:8px;
+
+.info {
+    margin:8px 0 8px 25px;
+    min-height:100px;
 }
+
+.pic {
+    margin:8px 0 8px 10px;
+}
+
+.pic img {
+    max-width:150px;
+    max-height:150px;
+}
+
 .right {
     float:right;
 }
+
 .left {
     float:left;
 }
