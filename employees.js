@@ -23,21 +23,22 @@ function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
     $scope.submit = $scope.addEmployee;
 }
 
-function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $location, $interval) {
+function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $location) {
     $rootScope.edit = true;
     $scope.btnText = 'Update';
-    $interval(function () {
-      var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
-      $scope.form = {};
-      $scope.form.name = employee.name;
-      $scope.form.title = employee.title;
-      $scope.form.age = employee.age;
-      $scope.form.hireDate = new Date(employee.hireDate);
-      $scope.form.photoId = employee.photoId;
-    }, 50, 8);
+    $scope.form = {};
+    var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId, function (response) {
+        $scope.form.name = response.data.name;
+        $scope.form.title = response.data.title;
+        $scope.form.age = response.data.age;
+        $scope.form.hireDate = new Date(response.data.hireDate);
+        $scope.form.photoId = response.data.photoId;
+    },
+    function () {});
 
     $scope.updateEmployee = function () {
-        var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
+        var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId);
+        var localEmployee = EmployeeList.getEmployeeByID($stateParams.employeeId);
         var updatedInfo = {
             name: $scope.form.name,
             photoId: $scope.form.photoId,
@@ -45,16 +46,16 @@ function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $loc
             hireDate: $scope.form.hireDate,
             title: $scope.form.title
         };
-        console.log(updatedInfo);
-        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id, updatedInfo).then(function (response) {
+        EmployeeList.updateEmployee($stateParams.employeeId, updatedInfo, function (response) {
             alert('Employee updated!');
-            employee.name = $scope.form.name;
-            employee.photoId = $scope.form.photoId;
-            employee.age = $scope.form.age;
-            employee.hireDate = $scope.form.hireDate;
-            employee.title = $scope.form.title;
+            localEmployee.name = response.data.name;
+            localEmployee.photoId = response.data.photoId;
+            localEmployee.age = response.data.age;
+            localEmployee.hireDate = response.data.hireDate;
+            localEmployee.title = response.data.title;
             $scope.btnText = 'Add';
             $location.path('/');
+            EmployeeList.refreshList();
         },
         function (response) {
             alert('Update failed ' + ' ' + response.status + ' ' + response.statusText);
@@ -64,11 +65,11 @@ function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $loc
     $scope.submit = $scope.updateEmployee;
 }
 
-function ListCtrl (EmployeeList, $interval, $scope, $http) {
-    $interval(function () {$scope.employees = EmployeeList.getEmployees()}, 250, 6); // load initial employees
+function ListCtrl (EmployeeList, $scope, $http) {
+    EmployeeList.loadEmployees(function (response) {$scope.employees = response.data}, function() {alert("Employees couldn't be loaded.")}); // load initial employees
 
     $scope.removeEmployee = function (employee) {
-        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
+        EmployeeList.deleteEmployee(employee.id, function () {
             $scope.employees.splice($scope.employees.indexOf(employee), 1);
         },
         function (response) {
@@ -79,17 +80,35 @@ function ListCtrl (EmployeeList, $interval, $scope, $http) {
 
 function EmployeeListService ($http) {
     var self = this;
-    $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
-        self.employees = response.data;
-    });
+    loadEmployees(function (response) {self.employees = response.data;}, {});
 
-    function getEmployeeByID (id) {
+    function getEmployeeByID(id) {
         for (var e of self.employees) {
             if (e.id === id) {
                 return e;
             }
         }
         return null;
+    }
+
+    function loadEmployees (success, fail) {
+        $http.get("https://devapplications.mtc.byu.edu/training/v1/api/persons/").then(success, fail);
+    }
+
+    function refreshList () {
+        loadEmployees(function (response) {self.employees = response.data;}, {});
+    }
+
+    function loadEmployeeByID (id, success, fail) {
+        $http.get("https://devapplications.mtc.byu.edu/training/v1/api/persons/" + id).then(success, fail);
+    }
+
+    function deleteEmployee (id, success, fail) {
+        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + id).then(success, fail);
+    }
+
+    function updateEmployee (id, updatedInfo, success, fail) {
+        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + id, updatedInfo).then(success, fail);
     }
 
     function getEmployees () {
@@ -104,8 +123,13 @@ function EmployeeListService ($http) {
 
     return {
         getEmployeeByID:getEmployeeByID,
+        loadEmployeeByID:loadEmployeeByID,
+        updateEmployee:updateEmployee,
         getEmployees:getEmployees,
-        addNew:addNew
+        loadEmployees:loadEmployees,
+        deleteEmployee:deleteEmployee,
+        addNew:addNew,
+        refreshList:refreshList
     };
 }
 
@@ -133,7 +157,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.service('EmployeeList', ['$http', EmployeeListService])
-.controller('ListCtrl', ['EmployeeList', '$interval', '$scope', '$http', ListCtrl])
+.controller('ListCtrl', ['EmployeeList', '$scope', '$http', ListCtrl])
 .controller('MainCtrl', MainCtrl)
 .controller('NewCtrl', ['EmployeeList', '$scope', '$rootScope', '$location', NewCtrl])
-.controller('UpdateCtrl', ['EmployeeList', '$scope', '$rootScope', '$http', '$stateParams', '$location', '$interval', UpdateCtrl]);
+.controller('UpdateCtrl', ['EmployeeList', '$scope', '$rootScope', '$http', '$stateParams', '$location', UpdateCtrl]);

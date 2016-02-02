@@ -1,128 +1,36 @@
 * {
     padding:0;
     margin:0;
-    color:black;
- }
-
- .clearfix {
-   overflow:auto;
-   zoom: 1;
- }
+    font-family: 'Roboto', sans-serif;
+}
 
 [ng-cloak] {
     display:none;
 }
 
-a {
-    text-decoration:none;
-    font-family:arial;
-    color: black;
-}
-
-h1 {
-    font-family:arial;
-    font-size:60px;
-}
-
 h2 {
-    font-family:serif;
-    font-size:20px;
+    margin-bottom:10px;
 }
 
-li {
-    list-style-type:none;
+md-sidenav h2 {
+    margin-left:10px;
 }
 
-div.main {
-    margin:0 auto;
-    width:700px;
-    height:auto;
+md-sidenav {
+  width: 420px;
 }
-
-div.header {
-    box-sizing:border-box;
-    padding:10px;
-    width:inherit;
-    height:auto;
-    border-bottom-style:solid;
-    border-bottom-width:6px;
+md-sidenav md-divider {
+  margin-bottom: 8px;
 }
-
-div.add-btn a {
-    font-size:60px;
+md-sidenav md-list-item {
+  height: 60px;
 }
-
-div.employee-header {
-    box-sizing:border-box;
-    padding:10px;
-    width:inherit;
-    height:auto;
-    border-bottom-style:solid;
-    border-bottom-width:2px;
+.pic {
+    margin-left:8px;
 }
-
-div.show_details a {
-    font-size: 20px;
-}
-
-div.employee-info {
-    box-sizing:border-box;
-    position:relative;
-    padding:10px;
-    width:inherit;
-    height:auto;
-    font-size:17px;
-    border-bottom-style:solid;
-    border-bottom-width:2px;
-}
-
-div.remove {
-    text-align: right;
-    position:absolute;
-    right:10px;
-    top:10px;
-}
-
-div.remove a {
-    font-family:serif;
-    font-size: 17px;
-    display:block;
-}
-
-div.add-form {
-    box-sizing:border-box;
-    padding:10px;
-    width:inherit;
-    height:auto;
-    border: solid 6px;
-    border-top-style: none;
-}
-
-div.add-form input {
-    margin-left:20px;
-    margin-bottom:5px;
-}
-
-div.photo-display img {
-    height:149px;
-    width:auto;
-}
-
-div.photo-preview {
-    height:149px;
-    width:200px;
-    background-color:#DDD;
-}
-
-div.photo-preview h2 {
-    text-align:center;
-    line-height:149px;
-}
-
 .right {
     float:right;
 }
-
 .left {
     float:left;
 }

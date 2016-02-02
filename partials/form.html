@@ -1,27 +1,31 @@
-<form ng-submit="submit()">
-    <ul>
-        <li>
-            <label for="name">Name:</label>
-            <input type="text" name="name" ng-model="$parent.form.name" ngRequired>
-        </li>
-        <li>
-            <label for="title">Title:</label>
-            <input type="text" name="title" ng-model="$parent.form.title" ngRequired>
-        </li>
-        <li>
-            <label for="age">Age:</label>
-            <input type="text" name="age" ng-model="$parent.form.age" ngRequired>
-        </li>
-        <li>
-            <label for="hireDate">Hire Date:</label>
-            <input type="date" name="hireDate" ng-model="$parent.form.hireDate" ngRequired>
-        </li>
-        <li>
-            <label for="photoId">Photo ID:</label>
-            <input type="url" name="photoId" ng-model="$parent.form.photoId">
-        </li>
-        <li>
-            <input type="submit" value="{{btnText}}">
-        </li>
-    </ul>
+<form name="employeeForm" ng-submit="">
+  <md-list>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>Name</label>
+        <input type="text" ng-model="$parent.form.name" ng-require>
+      </md-input-container>
+    </md-list-item>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>Position</label>
+        <input type="text" ng-model="$parent.form.title" ng-require>
+      </md-input-container>
+    </md-list-item>
+    <md-list-item style="margin-bottom:8px">
+      <label style="margin-left:3px; color:rgba(0,0,0,0.26)">Hire Date</label>
+      <md-datepicker ng-model="$parent.form.hireDate" ng-require></md-datepicker>
+    </md-list-item>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>URL to Picture</label>
+        <input type="url" ng-model="$parent.form.photoId">
+      </md-input-container>
+    </md-list-item>
+    <md-list-item>
+      <md-button flex="grow" style="text-align:left" class="md-raised md-primary">
+        Add Employee
+      </md-button>
+    </md-list-item>
+  </md-list>
 </form>
