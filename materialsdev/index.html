@@ -1,0 +1,122 @@
+<html lang="en" >
+<head>
+  <title>Angular Materials Experiment</title>
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+  <style>
+  md-sidenav {
+    width: 420px;
+  }
+  md-sidenav md-divider {
+    margin-bottom: 8px;
+  }
+  md-sidenav md-list-item {
+    height: 60px;
+  }
+  md-datepicker {
+
+  }
+  </style>
+</head>
+<body ng-app="MaterialsApp" layout="column" ng-cloak>
+  <md-toolbar class="md-padding" layout="row">
+    <h1>Employee Manager</h1>
+  </md-toolbar>
+  <div layout="row" flex>
+     <md-sidenav md-is-locked-open="true" flex="noshrink" class="md-whiteframe-z2 md-padding">
+       <h2 style="margin-left:10px">Add New Employee</h2>
+       <md-divider></md-divider>
+       <form name="employeeForm" ng-submit="">
+         <md-list>
+           <md-list-item>
+             <md-input-container flex="grow">
+               <label>Name</label>
+               <input type="text" ng-require>
+             </md-input-container>
+           </md-list-item>
+           <md-list-item>
+             <md-input-container flex="grow">
+               <label>Position</label>
+               <input type="text" ng-require>
+             </md-input-container>
+           </md-list-item>
+           <md-list-item style="margin-bottom:8px">
+             <label style="margin-left:3px; color:rgba(0,0,0,0.26)">Hire Date</label>
+             <md-datepicker ng-model="birthday"></md-datepicker>
+           </md-list-item>
+           <md-list-item>
+             <md-input-container flex="grow">
+               <label>URL to Picture</label>
+               <input type="url">
+             </md-input-container>
+           </md-list-item>
+           <md-list-item>
+             <md-button flex="grow" style="text-align:left" class="md-raised md-primary">
+               Add Employee
+             </md-button>
+           </md-list-item>
+         </md-list>
+       </form>
+     </md-sidenav>
+     
+    <md-content class="md-padding" flex="66">
+      <h2 style="margin-bottom:19px; margin-left:8px;">Current Employees</h2>
+      <md-divider></md-divider>
+      <md-list>
+        <md-list-item>
+          <md-button flex="grow" style="text-align:left" class="md-raised">
+            <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
+                Andrew Tate
+          </md-button>
+        </md-list-item>
+        <div ng-show="false">
+        <md-list-item>
+          <md-content>
+            <h2>Hello!<h2>
+          </md-content>
+        </md-list-item>
+        </div>
+        <md-list-item>
+          <md-button flex="grow" style="text-align:left" class="md-raised">
+            <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
+                Lia Luogo
+          </md-button>
+        </md-list-item>
+        <md-list-item>
+          <md-button flex="grow" style="text-align:left" class="md-raised">
+            <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
+                Lia Luogo
+          </md-button>
+        </md-list-item>
+        <md-list-item>
+          <md-button flex="grow" style="text-align:left" class="md-raised">
+            <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
+                Lia Luogo
+          </md-button>
+        </md-list-item>
+        <md-list-item>
+          <md-button flex="grow" style="text-align:left" class="md-raised">
+            <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
+                Lia Luogo
+          </md-button>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </div>
+  
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+  
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">
+    angular.module('MaterialsApp', ['ngMaterial']);
+  </script>
+  
+</body>
+</html>
