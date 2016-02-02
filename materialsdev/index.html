@@ -13,8 +13,14 @@
   md-sidenav md-list-item {
     height: 60px;
   }
-  md-datepicker {
-
+  .pic {
+      margin-left:8px;
+  }
+  .right {
+      float:right;
+  }
+  .left {
+      float:left;
   }
   </style>
 </head>
@@ -58,21 +64,40 @@
          </md-list>
        </form>
      </md-sidenav>
-     
-    <md-content class="md-padding" flex="66">
+
+    <md-content class="md-padding" flex="grow">
       <h2 style="margin-bottom:19px; margin-left:8px;">Current Employees</h2>
       <md-divider></md-divider>
       <md-list>
         <md-list-item>
-          <md-button flex="grow" style="text-align:left" class="md-raised">
+          <md-button flex="grow" style="text-align:left" class="md-raised" slide-toggle="#slidediv">
             <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
                 Andrew Tate
           </md-button>
         </md-list-item>
-        <div ng-show="false">
+        <div id="slidediv" class="slideable">
         <md-list-item>
-          <md-content>
-            <h2>Hello!<h2>
+          <md-content flex="grow">
+              <div class="pic left">
+                  <img style="height:150px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg">
+              </div>
+              <div class="info left">
+                  <h2>Andrew Tate</h2>
+                  <h3>Product Manager</h3>
+                  <h3>Hire Date: January 23, 2015</h3>
+              </div>
+              <div class="menu right">
+                  <md-menu md-position-mode="target-right target">
+                   <!-- Trigger element is a md-button with an icon -->
+                   <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Action menu">
+                     <md-icon md-svg-src="icons/ic_menu_black_24px.svg"></md-icon>
+                   </md-button>
+                   <md-menu-content>
+                       <md-menu-item><md-button ng-click="doSomething()">Update</md-button></md-menu-item>
+                       <md-menu-item><md-button ng-click="doSomething()">Remove</md-button></md-menu-item>
+                   </md-menu-content>
+                  </md-menu>
+              </div>
           </md-content>
         </md-list-item>
         </div>
@@ -103,7 +128,7 @@
       </md-list>
     </md-content>
   </div>
-  
+
   <!-- Angular Material requires Angular.js Libraries -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
@@ -112,11 +137,54 @@
 
   <!-- Angular Material Library -->
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-  
   <!-- Your application bootstrap  -->
   <script type="text/javascript">
-    angular.module('MaterialsApp', ['ngMaterial']);
+    angular.module('MaterialsApp', ['ngMaterial'])
+    .directive('slideable', function () {
+        return {
+            restrict:'C',
+            compile: function (element, attr) {
+                // wrap tag
+                var contents = element.html();
+                element.html('<div class="slideable_content" style="margin:0 !important; padding:0 !important" >' + contents + '</div>');
+
+                return function postLink(scope, element, attrs) {
+                    // default properties
+                    attrs.duration = (!attrs.duration) ? '0.5s' : attrs.duration;
+                    attrs.easing = (!attrs.easing) ? 'ease-in-out' : attrs.easing;
+                    element.css({
+                        'overflow': 'hidden',
+                        'height': '0px',
+                        'transitionProperty': 'height',
+                        'transitionDuration': attrs.duration,
+                        'transitionTimingFunction': attrs.easing
+                    });
+                };
+            }
+        };
+    })
+    .directive('slideToggle', function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var target = document.querySelector(attrs.slideToggle);
+                attrs.expanded = false;
+                element.bind('click', function() {
+                    var content = target.querySelector('.slideable_content');
+                    if(!attrs.expanded) {
+                        content.style.border = '1px solid rgba(0,0,0,0)';
+                        var y = content.clientHeight;
+                        content.style.border = 0;
+                        target.style.height = y + 'px';
+                    } else {
+                        target.style.height = '0px';
+                    }
+                    attrs.expanded = !attrs.expanded;
+                });
+            }
+        }
+    });
   </script>
-  
+
 </body>
 </html>
