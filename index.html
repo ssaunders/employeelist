@@ -1,21 +1,21 @@
-<html lang="en" >
+<html lang="en">
 <head>
   <title>Angular Materials Experiment</title>
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
   <link rel="stylesheet" href="employees.css">
 </head>
-<body ng-app="MaterialsApp" layout="column" ng-cloak>
+<body ng-app="EmployeeApp" layout="column" ng-cloak>
   <md-toolbar class="md-padding" layout="row">
     <h1>Employee Manager</h1>
   </md-toolbar>
   <div layout="row" flex>
      <md-sidenav md-is-locked-open="true" flex="noshrink" class="md-whiteframe-z2 md-padding">
-       <div ng-include="'partials/add.html'"></div>
+       <div ng-include="'partials/add.html'" ng-controller="NewCtrl"></div>
      </md-sidenav>
 
     <md-content class="md-padding" flex="grow">
-       <div ng-include="'partials/list.html'"></div>
+       <div ng-include="'partials/list.html'" ng-controller="ListCtrl"></div>
     </md-content>
   </div>
 
@@ -24,57 +24,11 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-
   <!-- Angular Material Library -->
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-  <!-- Your application bootstrap  -->
-  <script type="text/javascript">
-    angular.module('MaterialsApp', ['ngMaterial'])
-    .directive('slideable', function () {
-        return {
-            restrict:'C',
-            compile: function (element, attr) {
-                // wrap tag
-                var contents = element.html();
-                element.html('<div class="slideable_content" style="margin:0 !important; padding:0 !important" >' + contents + '</div>');
-
-                return function postLink(scope, element, attrs) {
-                    // default properties
-                    attrs.duration = (!attrs.duration) ? '0.5s' : attrs.duration;
-                    attrs.easing = (!attrs.easing) ? 'ease-in-out' : attrs.easing;
-                    element.css({
-                        'overflow': 'hidden',
-                        'height': '0px',
-                        'transitionProperty': 'height',
-                        'transitionDuration': attrs.duration,
-                        'transitionTimingFunction': attrs.easing
-                    });
-                };
-            }
-        };
-    })
-    .directive('slideToggle', function() {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attrs) {
-                var target = document.querySelector(attrs.slideToggle);
-                attrs.expanded = false;
-                element.bind('click', function() {
-                    var content = target.querySelector('.slideable_content');
-                    if(!attrs.expanded) {
-                        content.style.border = '1px solid rgba(0,0,0,0)';
-                        var y = content.clientHeight;
-                        content.style.border = 0;
-                        target.style.height = y + 'px';
-                    } else {
-                        target.style.height = '0px';
-                    }
-                    attrs.expanded = !attrs.expanded;
-                });
-            }
-        }
-    });
-  </script>
-
+  <!-- UI-Router -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.17/angular-ui-router.min.js"></script>
+  <!-- Application Bootstrap -->
+  <script src="employees.js"></script>
 </body>
 </html>

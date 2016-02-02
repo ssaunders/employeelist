@@ -1,36 +1,39 @@
-<h2 style="margin-left:8px;">Current Employees</h2>
-<md-divider></md-divider>
+<h2 id="listheader">Current Employees</h2>
 <md-list>
-  <md-list-item>
-    <md-button flex="grow" style="text-align:left" class="md-raised" slide-toggle="#slidediv">
-      <!-- <img style="height:60px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg"></img> -->
-          Andrew Tate
-    </md-button>
-  </md-list-item>
-  <div id="slidediv" class="slideable">
-  <md-list-item>
-    <md-content flex="grow">
-        <div class="pic left">
-            <img style="height:150px; width:auto" src="http://www.themunicheye.com/articles/images/monthly_image_folders/2014_Nov/Munich_Eye_14_18_16_00.jpg">
-        </div>
-        <div class="info left">
-            <h2>Andrew Tate</h2>
-            <h3>Product Manager</h3>
-            <h3>Hire Date: January 23, 2015</h3>
-        </div>
-        <div class="menu right">
-            <md-menu md-position-mode="target-right target">
-             <!-- Trigger element is a md-button with an icon -->
-             <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Action menu">
-               <md-icon md-svg-src="icons/ic_menu_black_24px.svg"></md-icon>
-             </md-button>
-             <md-menu-content>
-                 <md-menu-item><md-button ng-click="doSomething()">Update</md-button></md-menu-item>
-                 <md-menu-item><md-button ng-click="doSomething()">Remove</md-button></md-menu-item>
-             </md-menu-content>
-            </md-menu>
-        </div>
-    </md-content>
-  </md-list-item>
+  <md-divider></md-divider>
+  <div ng-repeat="employee in employees">
+      <!-- <md-list-item>
+        <md-button flex="grow" style="text-align:left" class="md-raised" slide-toggle="#sliderdiv">
+              {{ employee.name }}
+        </md-button>
+      </md-list-item> -->
+      <div id="sliderdiv" class="slideable">
+      <md-list-item>
+        <md-content flex="grow">
+            <div class="pic left">
+                <img ng-src="{{ employee.photoId }}" ng-show="employee.photoId">
+                <img src="img/profile-generic-portrait.jpg" ng-show="!employee.photoId">
+            </div>
+            <div class="info left">
+                <h2>{{ employee.name }}</h2>
+                <h3>{{ employee.title }}</h3>
+                <h3>{{ employee.hireDate | date : longDate }}</h3>
+            </div>
+            <div class="menu right">
+                <md-menu md-position-mode="target-right target">
+                 <!-- Trigger element is a md-button with an icon -->
+                 <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Action menu">
+                   <md-icon md-svg-src="img/icons/ic_menu_black_24px.svg"></md-icon>
+                 </md-button>
+                 <md-menu-content>
+                     <md-menu-item><md-button ng-click="doSomething()">Update</md-button></md-menu-item>
+                     <md-menu-item><md-button ng-click="removeEmployee(employee)">Remove</md-button></md-menu-item>
+                 </md-menu-content>
+                </md-menu>
+            </div>
+        </md-content>
+      </md-list-item>
+      <md-divider></md-divider>
+  </div>
   </div>
 </md-list>
