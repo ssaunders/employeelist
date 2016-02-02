@@ -1,13 +1,8 @@
 'use strict';
 
-function MainCtrl ($scope, $http, $stateParams, $rootScope) {
-    $rootScope.edit = false;
-    $scope.btnText = 'Add';
-}
-
 function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
     $rootScope.edit = true;
-    $scope.btnText = 'Add';
+    $scope.btnText = 'Add Employee';
 
     $scope.addEmployee = function () {
         var newEmployee = {
@@ -53,7 +48,7 @@ function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $loc
             employee.age = $scope.form.age;
             employee.hireDate = $scope.form.hireDate;
             employee.title = $scope.form.title;
-            $scope.btnText = 'Add';
+            $scope.btnText = 'Add Employee';
             $location.path('/');
         },
         function (response) {
@@ -118,9 +113,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('new', {
-            url: '/new',
-            templateUrl: 'partials/edit.html',
+        .state('home', {
+            url: '/',
+            templateUrl: 'partials/add.html',
             controller: NewCtrl
         })
         .state('update', {
@@ -128,16 +123,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/edit.html',
             controller: UpdateCtrl
         })
-        .state('home', {
-            url: '/',
-            templateUrl: null,
-            controller: MainCtrl
-        });
 });
 
 app.service('EmployeeList', ['$http', EmployeeListService])
 .controller('ListCtrl', ['EmployeeList', '$interval', '$scope', '$http', ListCtrl])
-.controller('MainCtrl', MainCtrl)
 .controller('NewCtrl', ['EmployeeList', '$scope', '$rootScope', '$location', NewCtrl])
 .controller('UpdateCtrl', ['EmployeeList', '$scope', '$rootScope', '$http', '$stateParams', '$location', '$interval', UpdateCtrl]);
 // .directive('slideable', function () {
