@@ -44,7 +44,6 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
     },
     function () {});
     $scope.updateEmployee = function () {
-        var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
         var updatedInfo = {
             name: $scope.form.name,
             photoId: $scope.form.photoId,
@@ -52,6 +51,7 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
             hireDate: $scope.form.hireDate,
             title: $scope.form.title
         };
+        var localEmployee = EmployeeList.getEmployeeByID($stateParams.employeeId);
         EmployeeList.updateEmployee($stateParams.employeeId, updatedInfo, function (response) {
             Toast.makeToast('Update Successful!', 1500);
             localEmployee.name = response.data.name;
