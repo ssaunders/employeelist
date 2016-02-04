@@ -1,42 +1,57 @@
-<h2>Edit {{ form.name }}</h2>
+<h2>Edit: {{ form.name }}</h2>
 <md-divider></md-divider>
-<form name="employeeForm" id="employeeForm" ng-submit="submit()">
+<form name="employeeForm" id="employeeForm" ng-submit="submit(employeeForm)">
   <md-list>
     <md-list-item>
       <md-input-container flex="grow">
         <label>Name</label>
-        <input type="text" ng-model="form.name" ng-require>
+        <input type="text" name="name" ng-model="form.name" required>
+        <div ng-messages="employeeForm.name.$error" role="alert">
+          <div ng-message="required">Please enter the employee's name</div>
+        </div>
       </md-input-container>
     </md-list-item>
     <md-list-item>
       <md-input-container flex="grow">
         <label>Position</label>
-        <input type="text" ng-model="form.title" ng-require>
+        <input type="text" name="title" ng-model="form.title" required>
+        <div ng-messages="employeeForm.title.$error" role="alert">
+          <div ng-message="required">Please enter the employee's title</div>
+        </div>
       </md-input-container>
     </md-list-item>
     <md-list-item>
       <md-input-container flex="grow">
         <label>Age</label>
-        <input type="number" min="0" ng-model="form.age" ng-require>
+        <input type="number" min="0" name="age" ng-model="form.age" required>
+        <div ng-messages="employeeForm.age.$error" role="alert">
+          <div ng-message="required">Please enter the employee's age</div>
+        </div>
       </md-input-container>
     </md-list-item>
     <md-list-item style="margin-bottom:8px">
       <label style="margin-left:3px; color:rgba(0,0,0,0.26)">Hire Date</label>
-      <md-datepicker ng-model="form.hireDate" ng-require></md-datepicker>
+      <md-datepicker name="hireDate" ng-model="form.hireDate" md-placeholder="Enter date" required></md-datepicker>
+      <!-- <div ng-messages="employeeForm.hireDate.$error" role="alert">
+        <div ng-message="required">Hire date is required!</div>
+      </div> -->
     </md-list-item>
     <md-list-item>
       <md-input-container flex="grow">
         <label>URL to Picture</label>
-        <input type="url" ng-model="form.photoId">
+        <input type="url" name="photoId" ng-model="form.photoId">
+        <div ng-messages="employeeForm.photoId.$error" role="alert">
+          <div ng-message="url">You must enter a valid url</div>
+        </div>
       </md-input-container>
     </md-list-item>
     <md-list-item layout="horizontal">
-      <md-button flex="grow" style="text-align:left" type="submit" class="md-raised md-primary">
-        Update
-      </md-button>
-      <md-button flex="grow" style="text-align:left" ng-click="cancel()" class="md-raised">
-        Cancel
-      </md-button>
+        <md-button flex="grow" style="text-align:left" type="submit" class="md-raised md-primary">
+            Update
+        </md-button>
+        <md-button flex="grow" style="text-align:left" ng-click="cancel()" class="md-raised">
+            Cancel
+        </md-button>
     </md-list-item>
   </md-list>
 </form>

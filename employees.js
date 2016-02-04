@@ -1,8 +1,12 @@
 'use strict';
 
 function NewCtrl (EmployeeList, $scope, $location, Toast) {
+    $scope.resetForm = function (form) {
+        form.$setPristine(); // clear form data
+        form.$setUntouched();
+    }
 
-    $scope.addEmployee = function () {
+    $scope.addEmployee = function (form) {
         var newEmployee = {
             name: $scope.form.name,
             photoId: $scope.form.photoId,
@@ -18,7 +22,8 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
         function () {
             Toast.makeToast('Employee couldn\'t be added.', 1500);
         });
-        $scope.form = {}; // clear form data
+        $scope.form = {};
+        $scope.resetForm(form);
     };
     $scope.submit = $scope.addEmployee;
 }
@@ -149,7 +154,7 @@ function EmployeeListService ($http) {
     };
 }
 
-var app = angular.module('EmployeeApp', ['ui.router', 'ngMaterial']);
+var app = angular.module('EmployeeApp', ['ui.router', 'ngMaterial', 'ngMessages']);
 app.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
