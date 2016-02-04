@@ -9,6 +9,7 @@
       </md-list-item> -->
       <div id="sliderdiv" class="slideable">
       <md-list-item>
+        <md-whiteframe flex="grow" class="md-whiteframe-4dp">
         <md-content flex="grow">
             <div class="pic left">
                 <img ng-src="{{ employee.photoId }}" ng-show="employee.photoId">
@@ -31,10 +32,10 @@
                      <md-menu-item><md-button ng-click="removeEmployee(employee)">Remove</md-button></md-menu-item>
                  </md-menu-content>
                 </md-menu>
-            </div>
+            </md-whiteframe>
         </md-content>
       </md-list-item>
-      <md-divider></md-divider>
+      </div>
   </div>
   </div>
 </md-list>
