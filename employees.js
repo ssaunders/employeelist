@@ -13,7 +13,7 @@ function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
             title: $scope.form.title
         };
         EmployeeList.addNew(newEmployee);
-        $location.path('/');
+        $scope.form = {};
     };
     $scope.submit = $scope.addEmployee;
 }
