@@ -1,7 +1,6 @@
 'use strict';
 
 function NewCtrl (EmployeeList, $scope, $location, Toast) {
-    $scope.btnText = 'Add Employee';
 
     $scope.addEmployee = function () {
         var newEmployee = {
@@ -11,6 +10,7 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
             hireDate: $scope.form.hireDate,
             title: $scope.form.title
         };
+        console.log(newEmployee);
         EmployeeList.addNew(newEmployee, function (response) {
             //update list
             Toast.makeToast('Employee Added!', 1500);
@@ -24,7 +24,10 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
 }
 
 function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
-    $scope.btnText = 'Update';
+    $scope.cancel = function () {
+        $location.path('/');
+    }
+
     $scope.form = {};
 
     var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId, function (response) {
@@ -52,7 +55,6 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
             localEmployee.age = response.data.age;
             localEmployee.hireDate = response.data.hireDate;
             localEmployee.title = response.data.title;
-            $scope.btnText = 'Add';
             $location.path('/');
         },
         function (response) {

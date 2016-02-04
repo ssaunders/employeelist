@@ -1,3 +1,42 @@
 <h2>Edit {{ form.name }}</h2>
 <md-divider></md-divider>
-<div ng-include="'partials/form.html'"></div>
+<form name="employeeForm" id="employeeForm" ng-submit="submit()">
+  <md-list>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>Name</label>
+        <input type="text" ng-model="form.name" ng-require>
+      </md-input-container>
+    </md-list-item>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>Position</label>
+        <input type="text" ng-model="form.title" ng-require>
+      </md-input-container>
+    </md-list-item>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>Age</label>
+        <input type="number" min="0" ng-model="form.age" ng-require>
+      </md-input-container>
+    </md-list-item>
+    <md-list-item style="margin-bottom:8px">
+      <label style="margin-left:3px; color:rgba(0,0,0,0.26)">Hire Date</label>
+      <md-datepicker ng-model="form.hireDate" ng-require></md-datepicker>
+    </md-list-item>
+    <md-list-item>
+      <md-input-container flex="grow">
+        <label>URL to Picture</label>
+        <input type="url" ng-model="form.photoId">
+      </md-input-container>
+    </md-list-item>
+    <md-list-item layout="horizontal">
+      <md-button flex="grow" style="text-align:left" type="submit" class="md-raised md-primary">
+        Update
+      </md-button>
+      <md-button flex="grow" style="text-align:left" ng-click="cancel()" class="md-raised">
+        Cancel
+      </md-button>
+    </md-list-item>
+  </md-list>
+</form>
