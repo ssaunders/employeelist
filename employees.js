@@ -44,8 +44,7 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
     },
     function () {});
     $scope.updateEmployee = function () {
-        var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId);
-        var localEmployee = EmployeeList.getEmployeeByID($stateParams.employeeId);
+        var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
         var updatedInfo = {
             name: $scope.form.name,
             photoId: $scope.form.photoId,
@@ -74,7 +73,7 @@ function ListCtrl (EmployeeList, $scope) {
     EmployeeList.loadEmployees(function (response) { $scope.employees = response.data; }, function () { alert("Employee couldn't be added"); }); // load initial employees
 
     $scope.removeEmployee = function (employee) {
-        EmployeeList.deleteEmployee(employee.id, function () {
+        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
             $scope.employees.splice($scope.employees.indexOf(employee), 1);
         },
         function (response) {
