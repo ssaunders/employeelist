@@ -1,7 +1,6 @@
 'use strict';
 
-function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
-    $rootScope.edit = true;
+function NewCtrl (EmployeeList, $scope, $location) {
     $scope.btnText = 'Add Employee';
 
     $scope.addEmployee = function () {
@@ -13,26 +12,25 @@ function NewCtrl (EmployeeList, $scope, $rootScope, $location) {
             title: $scope.form.title
         };
         EmployeeList.addNew(newEmployee);
-        $scope.form = {};
+        $scope.form = {}; // clear form data
     };
     $scope.submit = $scope.addEmployee;
 }
 
-function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $location, $interval) {
-    $rootScope.edit = true;
+function UpdateCtrl (EmployeeList, $scope, $stateParams, $location) {
     $scope.btnText = 'Update';
-    $interval(function () {
-      var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
-      $scope.form = {};
-      $scope.form.name = employee.name;
-      $scope.form.title = employee.title;
-      $scope.form.age = employee.age;
-      $scope.form.hireDate = new Date(employee.hireDate);
-      $scope.form.photoId = employee.photoId;
-    }, 50, 8);
-
+    $scope.form = {};
+    var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId, function (response) {
+        $scope.form.name = response.data.name;
+        $scope.form.title = response.data.title;
+        $scope.form.age = response.data.age;
+        $scope.form.hireDate = new Date(response.data.hireDate);
+        $scope.form.photoId = response.data.photoId;
+    },
+    function () {});
     $scope.updateEmployee = function () {
-        var employee = EmployeeList.getEmployeeByID($stateParams.employeeId);
+        var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId);
+        var localEmployee = EmployeeList.getEmployeeByID($stateParams.employeeId);
         var updatedInfo = {
             name: $scope.form.name,
             photoId: $scope.form.photoId,
@@ -40,15 +38,14 @@ function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $loc
             hireDate: $scope.form.hireDate,
             title: $scope.form.title
         };
-        console.log(updatedInfo);
-        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id, updatedInfo).then(function (response) {
+        EmployeeList.updateEmployee($stateParams.employeeId, updatedInfo, function (response) {
             alert('Employee updated!');
-            employee.name = $scope.form.name;
-            employee.photoId = $scope.form.photoId;
-            employee.age = $scope.form.age;
-            employee.hireDate = $scope.form.hireDate;
-            employee.title = $scope.form.title;
-            $scope.btnText = 'Add Employee';
+            localEmployee.name = response.data.name;
+            localEmployee.photoId = response.data.photoId;
+            localEmployee.age = response.data.age;
+            localEmployee.hireDate = response.data.hireDate;
+            localEmployee.title = response.data.title;
+            $scope.btnText = 'Add';
             $location.path('/');
         },
         function (response) {
@@ -59,11 +56,11 @@ function UpdateCtrl (EmployeeList, $scope, $rootScope, $http, $stateParams, $loc
     $scope.submit = $scope.updateEmployee;
 }
 
-function ListCtrl (EmployeeList, $interval, $scope, $http) {
-    $interval(function () {$scope.employees = EmployeeList.getEmployees()}, 250, 6); // load initial employees
+function ListCtrl (EmployeeList, $scope) {
+    EmployeeList.loadEmployees(function (response) { $scope.employees = response.data; }, function () { alert("Employee couldn't be added"); }); // load initial employees
 
     $scope.removeEmployee = function (employee) {
-        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
+        EmployeeList.deleteEmployee(employee.id, function () {
             $scope.employees.splice($scope.employees.indexOf(employee), 1);
         },
         function (response) {
@@ -91,6 +88,22 @@ function EmployeeListService ($http) {
         return self.employees;
     }
 
+    function loadEmployees (success, fail) {
+        $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(success);
+    }
+
+    function loadEmployeeByID (id, success, fail) {
+        $http.get("https://devapplications.mtc.byu.edu/training/v1/api/persons/" + id).then(success, fail);
+    }
+
+    function deleteEmployee (id, success, fail) {
+        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + id).then(success, fail);
+    }
+
+    function updateEmployee (id, updatedInfo, success, fail) {
+        $http.put('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + id, updatedInfo).then(success, fail);
+    }
+
     function addNew(e) {
         $http.post('https://devapplications.mtc.byu.edu/training/v1/api/persons/', e).then(function (response) {
             self.employees.push(response.data);
@@ -103,6 +116,10 @@ function EmployeeListService ($http) {
     return {
         getEmployeeByID:getEmployeeByID,
         getEmployees:getEmployees,
+        loadEmployees:loadEmployees,
+        loadEmployeeByID:loadEmployeeByID,
+        deleteEmployee:deleteEmployee,
+        updateEmployee:updateEmployee,
         addNew:addNew
     };
 }
@@ -126,9 +143,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.service('EmployeeList', ['$http', EmployeeListService])
-.controller('ListCtrl', ['EmployeeList', '$interval', '$scope', '$http', ListCtrl])
-.controller('NewCtrl', ['EmployeeList', '$scope', '$rootScope', '$location', NewCtrl])
-.controller('UpdateCtrl', ['EmployeeList', '$scope', '$rootScope', '$http', '$stateParams', '$location', '$interval', UpdateCtrl]);
+.controller('ListCtrl', ['EmployeeList', '$scope', ListCtrl])
+.controller('NewCtrl', ['EmployeeList', '$scope', '$location', NewCtrl])
+.controller('UpdateCtrl', ['EmployeeList', '$scope', '$stateParams', '$location', UpdateCtrl]);
 // .directive('slideable', function () {
 //     return {
 //         restrict:'C',
