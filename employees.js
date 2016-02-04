@@ -25,6 +25,8 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
         $scope.resetForm(form);
     };
     $scope.submit = $scope.addEmployee;
+    $scope.form = {};
+    $scope.form.hireDate = new Date();
 }
 
 function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
