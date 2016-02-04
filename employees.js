@@ -4,7 +4,7 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
     $scope.resetForm = function (form) {
         form.$setPristine(); // clear form data
         form.$setUntouched();
-    }
+    };
 
     $scope.addEmployee = function (form) {
         var newEmployee = {
@@ -15,8 +15,7 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
             title: $scope.form.title
         };
         console.log(newEmployee);
-        EmployeeList.addNew(newEmployee, function (response) {
-            //update list
+        EmployeeList.addNew(newEmployee, function () {
             Toast.makeToast('Employee Added!', 1500);
         },
         function () {
@@ -31,11 +30,11 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
 function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
     $scope.cancel = function () {
         $location.path('/');
-    }
+    };
 
     $scope.form = {};
 
-    var employee = EmployeeList.loadEmployeeByID($stateParams.employeeId, function (response) {
+    EmployeeList.loadEmployeeByID($stateParams.employeeId, function (response) {
         $scope.form.name = response.data.name;
         $scope.form.title = response.data.title;
         $scope.form.age = response.data.age;
@@ -69,11 +68,17 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
     $scope.submit = $scope.updateEmployee;
 }
 
-function ListCtrl (EmployeeList, $scope) {
-    EmployeeList.loadEmployees(function (response) { $scope.employees = response.data; }, function () { alert("Employee couldn't be added"); }); // load initial employees
-
+function ListCtrl (EmployeeList, $scope, $interval, $timeout) {
+    $scope.loadingError = false;
+    $interval(function () { $scope.employees = EmployeeList.employees; }, 250, 6);
+    $timeout(function () {
+        if (!$scope.employees) {
+            $scope.loadingError = true;
+        }
+    },
+    1800);
     $scope.removeEmployee = function (employee) {
-        $http.delete('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + employee.id).then(function () {
+        EmployeeList.deleteEmployee(employee.id, function () {
             $scope.employees.splice($scope.employees.indexOf(employee), 1);
         },
         function (response) {
@@ -82,7 +87,7 @@ function ListCtrl (EmployeeList, $scope) {
     };
 }
 
-function ToastService ($mdToast, $document) {
+function ToastService ($mdToast) {
     function makeToast(text, timeout) {
         $mdToast.show(
             $mdToast.simple()
@@ -94,14 +99,14 @@ function ToastService ($mdToast, $document) {
 
     return {
         makeToast:makeToast
-    }
+    };
 }
 
 function EmployeeListService ($http) {
     var self = this;
-    $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(function (response) {
+    loadEmployees(function (response) {
         self.employees = response.data;
-    });
+    }, function () {});
 
     function getEmployeeByID (id) {
         for (var e of self.employees) {
@@ -117,11 +122,11 @@ function EmployeeListService ($http) {
     }
 
     function loadEmployees (success, fail) {
-        $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(success);
+        $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(success, fail);
     }
 
     function loadEmployeeByID (id, success, fail) {
-        $http.get("https://devapplications.mtc.byu.edu/training/v1/api/persons/" + id).then(success, fail);
+        $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/' + id).then(success, fail);
     }
 
     function deleteEmployee (id, success, fail) {
@@ -143,6 +148,9 @@ function EmployeeListService ($http) {
     }
 
     return {
+        get employees () {
+            return self.employees;
+        },
         getEmployeeByID:getEmployeeByID,
         getEmployees:getEmployees,
         loadEmployees:loadEmployees,
@@ -168,12 +176,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: '/update/:employeeId',
             templateUrl: 'partials/edit.html',
             controller: UpdateCtrl
-        })
+        });
 });
 
 app.service('EmployeeList', ['$http', EmployeeListService])
-.service('Toast', ['$mdToast', '$document', ToastService])
-.controller('ListCtrl', ['EmployeeList', '$scope', ListCtrl])
+.service('Toast', ['$mdToast', ToastService])
+.controller('ListCtrl', ['EmployeeList', '$scope', '$interval', '$timeout', ListCtrl])
 .controller('NewCtrl', ['EmployeeList', '$scope', '$location', 'Toast', NewCtrl])
 .controller('UpdateCtrl', ['EmployeeList', '$scope', '$stateParams', '$location', 'Toast', UpdateCtrl]);
 // .directive('slideable', function () {

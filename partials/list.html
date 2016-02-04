@@ -1,3 +1,11 @@
+<div class='loader' ng-show="!employees&&!loadingError">
+    <img src="img/ajax-loader.gif">
+    <h1>Loading Employees...</h1>
+</div>
+<div class='loadingError' ng-show="loadingError">
+    <h1>OOPS!  Employee load failed :(</h1>
+</div>
+<span ng-show="employees">
 <h2 id="listheader">Current Employees</h2>
 <md-list>
   <md-divider></md-divider>
@@ -39,3 +47,4 @@
   </div>
   </div>
 </md-list>
+</span>
