@@ -5,12 +5,18 @@
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
   <link rel="stylesheet" href="employees.css">
 </head>
-<body ng-app="EmployeeApp" layout="column" ng-cloak>
+<body ng-app="EmployeeApp" ng-controller="MainCtrl" layout="column" ng-cloak>
   <md-toolbar class="md-padding" layout="row">
+    <md-button class="menu" aria-label="Menu" hide-gt-sm ng-click="toggleBar()" >
+      <md-icon md-svg-src="img/icons/ic_add_circle_outline_white_24px.svg"></md-icon>
+    </md-button>
     <h1>Employee Manager</h1>
   </md-toolbar>
   <div layout="row" flex>
-     <md-sidenav md-is-locked-open="true" flex="noshrink" class="md-whiteframe-z2 md-padding">
+     <md-sidenav md-is-locked-open="$mdMedia('gt-sm')"
+                md-component-id="left"
+                flex="noshrink"
+                class="md-whiteframe-z2 md-padding" >
        <div ui-view></div>
      </md-sidenav>
 

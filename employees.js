@@ -29,10 +29,12 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
     $scope.form.hireDate = new Date();
 }
 
-function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, Toast) {
+function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, $mdSidenav, Toast) {
     $scope.cancel = function () {
         $location.path('/');
     };
+
+    $mdSidenav('left').toggle(); // keep the sidenav open when editing
 
     $scope.form = {};
 
@@ -164,7 +166,9 @@ function EmployeeListService ($http) {
 }
 
 var app = angular.module('EmployeeApp', ['ui.router', 'ngMaterial', 'ngMessages']);
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $mdIconProvider, $urlRouterProvider) {
+
+    $mdIconProvider.icon("menu", "./img/icon/ic_menu_black_24px.svg", 24);
 
     $urlRouterProvider.otherwise('/');
 
@@ -183,9 +187,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 app.service('EmployeeList', ['$http', EmployeeListService])
 .service('Toast', ['$mdToast', ToastService])
+.controller('MainCtrl', function($scope, $mdSidenav) {
+    $scope.toggleBar = function() {
+      $mdSidenav('left').toggle();
+    };
+})
 .controller('ListCtrl', ['EmployeeList', '$scope', '$interval', '$timeout', ListCtrl])
 .controller('NewCtrl', ['EmployeeList', '$scope', '$location', 'Toast', NewCtrl])
-.controller('UpdateCtrl', ['EmployeeList', '$scope', '$stateParams', '$location', 'Toast', UpdateCtrl]);
+.controller('UpdateCtrl', ['EmployeeList', '$scope', '$stateParams', '$location', '$mdSidenav', 'Toast', UpdateCtrl]);
 // .directive('slideable', function () {
 //     return {
 //         restrict:'C',
