@@ -1,10 +1,11 @@
 'use strict';
 
-function NewCtrl (EmployeeList, $scope, $location, Toast) {
+function NewCtrl (EmployeeList, $scope, $location, $mdSidenav, Toast) {
     $scope.resetForm = function (form) {
         form.$setPristine(); // clear form data
         form.$setUntouched();
         $scope.form.hireDate = new Date();
+        $mdSidenav('left').close();
     };
 
     $scope.addEmployee = function (form) {
@@ -28,4 +29,7 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
     $scope.submit = $scope.addEmployee;
     $scope.form = {};
     $scope.form.hireDate = new Date();
+    if ($mdSidenav('left').isOpen()) {
+        $mdSidenav('left').close();
+    }
 }

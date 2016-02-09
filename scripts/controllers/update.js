@@ -5,7 +5,7 @@ function UpdateCtrl (EmployeeList, $scope, $stateParams, $location, $mdSidenav, 
         $location.path('/');
     };
 
-    $mdSidenav('left').toggle(); // keep the sidenav open when editing
+    $mdSidenav('left').open(); // keep the sidenav open when editing
 
     $scope.form = {};
 

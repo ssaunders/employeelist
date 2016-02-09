@@ -21,13 +21,9 @@ angular.module('EmployeeApp', ['ui.router', 'ngMaterial', 'ngMessages'])
 })
 .service('EmployeeList', ['$http', EmployeeListService])
 .service('Toast', ['$mdToast', ToastService])
-.controller('MainCtrl', function($scope, $mdSidenav) {
-    $scope.toggleBar = function() {
-      $mdSidenav('left').toggle();
-    };
-})
+.controller('MainCtrl', ['$scope', '$mdSidenav', MainCtrl])
 .controller('ListCtrl', ['EmployeeList', '$scope', '$interval', '$timeout', ListCtrl])
-.controller('NewCtrl', ['EmployeeList', '$scope', '$location', 'Toast', NewCtrl])
+.controller('NewCtrl', ['EmployeeList', '$scope', '$location', '$mdSidenav', 'Toast', NewCtrl])
 .controller('UpdateCtrl', ['EmployeeList', '$scope', '$stateParams', '$location', '$mdSidenav', 'Toast', UpdateCtrl]);
 // .directive('slideable', function () {
 //     return {
