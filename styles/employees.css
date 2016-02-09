@@ -15,6 +15,7 @@ h2 {
 h3 {
     font-size: 18px;
     line-height: 30px;
+    font-weight: lighter;
 }
 
 h3:last-child {
@@ -75,8 +76,8 @@ form md-list-item {
 }
 
 .pic img {
-    max-width:150px;
-    max-height:150px;
+    max-width:100%;
+    max-height:auto;
 }
 
 .right {
