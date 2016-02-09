@@ -3,7 +3,7 @@
   <title>Angular Materials Experiment</title>
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
-  <link rel="stylesheet" href="employees.css">
+  <link rel="stylesheet" href="styles/employees.css">
 </head>
 <body ng-app="EmployeeApp" ng-controller="MainCtrl" layout="column" ng-cloak>
   <md-toolbar class="md-padding" layout="row">
@@ -35,6 +35,11 @@
   <!-- UI-Router -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.17/angular-ui-router.min.js"></script>
   <!-- Application Bootstrap -->
-  <script src="employees.js"></script>
+  <script src="scripts/services/toast.js"></script>
+  <script src="scripts/services/employeelist.js"></script>
+  <script src="scripts/controllers/list.js"></script>
+  <script src="scripts/controllers/new.js"></script>
+  <script src="scripts/controllers/update.js"></script>
+  <script src="scripts/app.js"></script>
 </body>
 </html>
