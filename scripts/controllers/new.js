@@ -4,6 +4,7 @@ function NewCtrl (EmployeeList, $scope, $location, Toast) {
     $scope.resetForm = function (form) {
         form.$setPristine(); // clear form data
         form.$setUntouched();
+        $scope.form.hireDate = new Date();
     };
 
     $scope.addEmployee = function (form) {

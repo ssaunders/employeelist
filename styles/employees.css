@@ -87,3 +87,8 @@ form md-list-item {
 .left {
     float:left;
 }
+
+.clearfix {
+  overflow: auto;
+  zoom: 1;
+}

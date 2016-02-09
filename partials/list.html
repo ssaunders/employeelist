@@ -6,10 +6,17 @@
     <h1>OOPS!  Employee load failed :(</h1>
 </div>
 <span ng-show="employees">
-<h2 id="listheader">Current Employees</h2>
+<div class="clearfix">
+    <div class="left">
+        <h2 id="listheader">Current Employees</h2>
+    </div>
+    <div class="right">
+        <input id="search" ng-model="search" type="text" placeholder="Search...">
+    </div>
+</div>
 <md-list>
   <md-divider></md-divider>
-  <div ng-repeat="employee in employees">
+  <div ng-repeat="employee in employees | filter:search | orderBy:'name'">
       <!-- <md-list-item>
         <md-button flex="grow" style="text-align:left" class="md-raised" slide-toggle="#sliderdiv">
               {{ employee.name }}
