@@ -27,6 +27,15 @@ h3:last-child {
     margin-bottom:2px;
 }
 
+@-moz-document url-prefix() {
+    md-toolbar {
+		min-height:80px;
+	}
+    .md-padding {
+        padding: 16px;
+    }
+}
+
 md-sidenav h2 {
     margin-left:10px;
 }
