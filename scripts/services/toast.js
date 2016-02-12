@@ -5,7 +5,7 @@ function ToastService ($mdToast) {
         $mdToast.show(
             $mdToast.simple()
                 .textContent(text)
-                .position('top right')
+                .position('left bottom')
                 .hideDelay(timeout)
         );
     }

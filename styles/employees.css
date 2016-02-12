@@ -51,6 +51,18 @@ form md-list-item {
     margin-bottom: 8px;
 }
 
+#add-btn:hover {
+    background-color: rgb(83, 101, 201);
+}
+
+#update-btn:hover {
+    background-color: rgb(83, 101, 201);
+}
+
+#cancel-btn:hover {
+    background-color: rgb(240, 240, 240);
+}
+
 .loader, .loadingError {
     display: block;
     text-align: center;
@@ -78,6 +90,10 @@ form md-list-item {
 .pic img {
     max-width:100%;
     max-height:auto;
+}
+
+.menu {
+    margin: 10px 10px 0 0;
 }
 
 .right {
