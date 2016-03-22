@@ -2,10 +2,6 @@
 
 function EmployeeListService ($http) {
     var self = this;
-    loadEmployees(function (response) {
-        self.employees = response.data;
-    }, function () {});
-
     function getEmployeeByID (id) {
         for (var e of self.employees) {
             if (e.id === id) {
@@ -19,8 +15,8 @@ function EmployeeListService ($http) {
         return self.employees;
     }
 
-    function loadEmployees (success, fail) {
-        $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/').then(success, fail);
+    function loadEmployees () {
+        return $http.get('https://devapplications.mtc.byu.edu/training/v1/api/persons/');
     }
 
     function loadEmployeeByID (id, success, fail) {
